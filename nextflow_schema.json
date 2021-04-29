@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://raw.githubusercontent.com/avantonder/assembleBAC/master/nextflow_schema.json",
-    "title": "nf-core/assemblebac pipeline parameters",
+    "title": "avantonder/assembleBAC pipeline parameters",
     "description": "Pipeline for assembling bacterial genomes",
     "type": "object",
     "definitions": {
