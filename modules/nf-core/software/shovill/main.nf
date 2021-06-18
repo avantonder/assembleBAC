@@ -31,6 +31,7 @@ process SHOVILL {
 
     script:
     def software = getSoftwareName(task.process)
+    prefix   = options.suffix ? "${meta.id}${options.suffix}" : "${meta.id}"
     def memory = task.memory.toGiga()
     """
     shovill \\
@@ -39,7 +40,7 @@ process SHOVILL {
         $options.args \\
         --cpus $task.cpus \\
         --ram $memory \\
-        --outdir ./ \\
+        --outdir $prefix \\
         --force
 
     echo \$(shovill --version 2>&1) | sed 's/^.*shovill //'  > ${software}.version.txt
