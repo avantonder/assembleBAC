@@ -19,8 +19,8 @@ process PROKKA {
 
     input:
     tuple val(meta), path(fasta)
-    path proteins
-    path prodigal_tf
+    //path proteins
+    //path prodigal_tf
 
     output:
     tuple val(meta), path("${prefix}/*.gff"), emit: gff
