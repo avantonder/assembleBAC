@@ -20,7 +20,7 @@ process QUAST {
     input:
     //path consensus
     path fasta
-    //path gff
+    path gff
     //val use_fasta
     //val use_gff
 
