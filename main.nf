@@ -77,7 +77,7 @@ include { GET_SOFTWARE_VERSIONS } from './modules/local/get_software_versions'  
 include { SHOVILL } from './modules/nf-core/software/shovill/main'                  addParams( options: modules['shovill'])
 include { MULTIQC } from './modules/nf-core/software/multiqc/main'                  addParams( options: modules['multiqc'])
 include { PROKKA  } from './modules/nf-core/software/prokka/main'                   addParams( options: modules['prokka'])
-include { QUAST   } from './modules/nf-core/software/multiqc/main'                  addParams( options: modules['quast'])
+include { QUAST   } from './modules/nf-core/software/quast/main'                  addParams( options: modules['quast'])
 
 // Local: Sub-workflows
 def fastp_options   = modules['fastp']
