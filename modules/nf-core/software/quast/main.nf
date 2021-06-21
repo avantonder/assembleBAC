@@ -18,11 +18,11 @@ process QUAST {
     }
 
     input:
-    path consensus
+    //path consensus
     path fasta
-    path gff
-    val use_fasta
-    val use_gff
+    //path gff
+    //val use_fasta
+    //val use_gff
 
     output:
     path "${prefix}"    , emit: results
