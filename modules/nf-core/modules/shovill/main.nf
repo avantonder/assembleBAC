@@ -30,7 +30,7 @@ process SHOVILL {
     shovill \\
         --R1 ${reads[0]} \\
         --R2 ${reads[1]} \\
-        --gsize $genome_size
+        --gsize $genome_size \\
         $args \\
         --cpus $task.cpus \\
         --ram $memory \\
