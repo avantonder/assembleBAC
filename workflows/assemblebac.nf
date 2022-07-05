@@ -48,12 +48,11 @@ include { INPUT_CHECK                 } from '../subworkflows/local/input_check'
 //
 // MODULE: Installed directly from nf-core/modules
 
-include { SHOVILL } from './modules/nf-core/modules/shovill/main'
-include { PROKKA  } from './modules/nf-core/modules/prokka/main'
-include { QUAST   } from './modules/nf-core/modules/quast/main'
+include { SHOVILL } from '../modules/nf-core/modules/shovill/main'
+include { PROKKA  } from '../modules/nf-core/modules/prokka/main'
+include { QUAST   } from '../modules/nf-core/modules/quast/main'
 
 include { MULTIQC                                                 } from '../modules/nf-core/modules/multiqc/main'
-include { MULTIQC_TSV_FROM_LIST as MULTIQC_TSV_FAIL_READS         } from '../modules/local/multiqc_tsv_from_list'
 include { CUSTOM_DUMPSOFTWAREVERSIONS                             } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main' 
 
 /*
