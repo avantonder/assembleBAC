@@ -1,5 +1,5 @@
 //
-// This file holds several functions specific to the workflow/bovisanalyzer.nf in the avantonder/bacQC pipeline
+// This file holds several functions specific to the workflow/assemblebac.nf in the avantonder/assembleBAC pipeline
 //
 
 import groovy.json.JsonSlurper
