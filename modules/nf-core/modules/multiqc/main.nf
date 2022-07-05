@@ -11,10 +11,7 @@ process MULTIQC {
     path multiqc_custom_config
     path software_versions
     path workflow_summary
-    path fail_reads_summary
-    path ('fastqc/*')
-    path ('fastp/*')
-    path ('kraken2/*')
+    path ('quast/*')
 
     output:
     path "*multiqc_report.html", emit: report
