@@ -101,8 +101,13 @@ workflow ASSEMBLEBAC {
     //
     // MODULE: Run quast
     //
+    ch_assemblies_quast
+        .map { meta, fasta -> fasta }
+        .collect()
+        .set { ch_to_quast }
+    
     QUAST (
-            ch_assemblies_quast,
+            ch_to_quast,
             [],
             [],
             false,
