@@ -120,7 +120,7 @@ workflow ASSEMBLEBAC {
     //
     // MODULE: MultiQC
     //
-    workflow_summary    = WorkflowBacQC.paramsSummaryMultiqc(workflow, summary_params)
+    workflow_summary    = WorkflowAssembleBac.paramsSummaryMultiqc(workflow, summary_params)
     ch_workflow_summary = Channel.value(workflow_summary)
     
     MULTIQC (
