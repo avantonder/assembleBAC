@@ -12,7 +12,7 @@ process SHOVILL {
     val genome_size
 
     output:
-    tuple val(meta), path("contigs.fa")                         , emit: contigs
+    tuple val(meta), path("${prefix}_contigs.fa")                       , emit: contigs
     tuple val(meta), path("shovill.corrections")                , emit: corrections
     tuple val(meta), path("shovill.log")                        , emit: log
     tuple val(meta), path("{skesa,spades,megahit,velvet}.fasta"), emit: raw_contigs
