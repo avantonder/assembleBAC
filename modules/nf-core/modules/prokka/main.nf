@@ -43,6 +43,7 @@ process PROKKA {
         $proteins_opt \\
         $prodigal_tf \\
         $fasta
+    ln -s ${prefix}/${prefix}.gff
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         prokka: \$(echo \$(prokka --version 2>&1) | sed 's/^.*prokka //')
