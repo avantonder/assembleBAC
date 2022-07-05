@@ -83,9 +83,9 @@ workflow ASSEMBLEBAC {
             INPUT_CHECK.out.reads,
             params.genome_size
         )
-        ch_assemblies_prokka     = SHOVILL.out.contigs
-        ch_assemblies_quast      = SHOVILL.out.contigs
-        ch_versions     = ch_versions.mix(SHOVILL.out.versions.first().ifEmpty(null))
+        ch_assemblies_prokka = SHOVILL.out.contigs
+        ch_assemblies_quast  = SHOVILL.out.contigs
+        ch_versions          = ch_versions.mix(SHOVILL.out.versions.first().ifEmpty(null))
 
     //
     // MODULE: Run prokka
@@ -95,17 +95,20 @@ workflow ASSEMBLEBAC {
             [],
             []           
         )
-        ch_gff               = PROKKA.out.gff
-        ch_versions     = ch_versions.mix(PROKKA.out.versions.first().ifEmpty(null))
+        ch_gff      = PROKKA.out.gff
+        ch_versions = ch_versions.mix(PROKKA.out.versions.first().ifEmpty(null))
 
     //
     // MODULE: Run quast
     //
     QUAST (
             ch_assemblies_quast,
-            ch_gff
+            [],
+            [],
+            false,
+            false
         )
-        ch_versions     = ch_versions.mix(QUAST.out.versions.first().ifEmpty(null))
+        ch_versions = ch_versions.mix(QUAST.out.versions.first().ifEmpty(null))
     
     //
     // MODULE: Collate software versions
