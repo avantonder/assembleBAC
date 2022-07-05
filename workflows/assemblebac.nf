@@ -38,7 +38,6 @@ ch_multiqc_custom_config = params.multiqc_config ? file(params.multiqc_config) :
 
 // Local: Sub-workflows
 include { INPUT_CHECK                 } from '../subworkflows/local/input_check'
-include { FASTQC_FASTP                } from '../subworkflows/local/fastqc_fastp'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -65,7 +64,6 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS                             } from '../mod
 
 // Info required for completion email and summary
 def multiqc_report = []
-def fail_mapped_reads = [:]
 
 workflow ASSEMBLEBAC {
 
@@ -80,58 +78,11 @@ workflow ASSEMBLEBAC {
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     //
-    // SUBWORKFLOW: Read QC and trim adapters
-    //
-    FASTQC_FASTP (
-        INPUT_CHECK.out.reads,
-        params.save_trimmed_fail,
-        false
-    )
-    ch_variants_fastq = FASTQC_FASTP.out.reads
-    ch_versions = ch_versions.mix(FASTQC_FASTP.out.versions)
-
-    //
-    // Filter empty FastQ files after adapter trimming
-    //
-    ch_fail_reads_multiqc = Channel.empty()
-    if (!params.skip_fastp) {
-        ch_variants_fastq
-            .join(FASTQC_FASTP.out.trim_json)
-            .map {
-                meta, reads, json ->
-                    pass = WorkflowBacQC.getFastpReadsAfterFiltering(json) > 0
-                    [ meta, reads, json, pass ]
-            }
-            .set { ch_pass_fail_reads }
-
-        ch_pass_fail_reads
-            .map { meta, reads, json, pass -> if (pass) [ meta, reads ] }
-            .set { ch_variants_fastq }
-
-        ch_pass_fail_reads
-            .map {
-                meta, reads, json, pass ->
-                if (!pass) {
-                    fail_mapped_reads[meta.id] = 0
-                    num_reads = WorkflowBacQC.getFastpReadsBeforeFiltering(json)
-                    return [ "$meta.id\t$num_reads" ]
-                }
-            }
-            .set { ch_pass_fail_reads }
-
-        MULTIQC_TSV_FAIL_READS (
-            ch_pass_fail_reads.collect(),
-            ['Sample', 'Reads before trimming'],
-            'fail_mapped_reads'
-        )
-        .set { ch_fail_reads_multiqc }
-    }
-
-    //
     // MODULE: Run shovill
     //
     SHOVILL (
-            ch_reads
+            INPUT_CHECK.out.reads,
+            params.genome_size
         )
         ch_assemblies_prokka     = SHOVILL.out.contigs
         ch_assemblies_quast      = SHOVILL.out.contigs
@@ -173,9 +124,6 @@ workflow ASSEMBLEBAC {
         ch_multiqc_custom_config,
         CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect(),
         ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),
-        ch_fail_reads_multiqc.ifEmpty([]),
-        FASTQC_FASTP.out.fastqc_raw_zip.collect{it[1]}.ifEmpty([]),
-        FASTQC_FASTP.out.trim_json.collect{it[1]}.ifEmpty([]),
         QUAST.out.results.collect{it[1]}.ifEmpty([]) 
         )
     multiqc_report = MULTIQC.out.report.toList()
