@@ -52,8 +52,8 @@ include { SHOVILL } from '../modules/nf-core/modules/shovill/main'
 include { PROKKA  } from '../modules/nf-core/modules/prokka/main'
 include { QUAST   } from '../modules/nf-core/modules/quast/main'
 
-include { MULTIQC                                                 } from '../modules/nf-core/modules/multiqc/main'
-include { CUSTOM_DUMPSOFTWAREVERSIONS                             } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main' 
+include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
+include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main' 
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
