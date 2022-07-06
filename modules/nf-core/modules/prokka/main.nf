@@ -40,6 +40,7 @@ process PROKKA {
         $args \\
         --cpus $task.cpus \\
         --prefix $prefix \\
+        --outdir ./ \\
         $proteins_opt \\
         $prodigal_tf \\
         $fasta
