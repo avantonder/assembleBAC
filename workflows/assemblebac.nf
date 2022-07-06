@@ -95,7 +95,6 @@ workflow ASSEMBLEBAC {
             [],
             []           
         )
-        ch_gff      = PROKKA.out.gff
         ch_versions = ch_versions.mix(PROKKA.out.versions.first().ifEmpty(null))
 
     //
