@@ -49,6 +49,7 @@ include { INPUT_CHECK                 } from '../subworkflows/local/input_check'
 // MODULE: Installed directly from nf-core/modules
 
 include { SHOVILL } from '../modules/nf-core/modules/shovill/main'
+include { MLST    } from '../modules/nf-core/modules/mlst/main'
 include { PROKKA  } from '../modules/nf-core/modules/prokka/main'
 include { QUAST   } from '../modules/nf-core/modules/quast/main'
 
@@ -84,9 +85,18 @@ workflow ASSEMBLEBAC {
             params.genome_size
         )
         ch_assemblies_prokka = SHOVILL.out.contigs
+        ch_assemblies_mlst   = SHOVILL.out.contigs
         ch_assemblies_quast  = SHOVILL.out.contigs
         ch_versions          = ch_versions.mix(SHOVILL.out.versions.first().ifEmpty(null))
 
+    //
+    // MODULE: Run mlst
+    //
+    MLST (
+            ch_assemblies_mlst        
+        )
+        ch_versions = ch_versions.mix(MLST.out.versions.first().ifEmpty(null))
+    
     //
     // MODULE: Run prokka
     //
