@@ -134,18 +134,20 @@ workflow ASSEMBLEBAC {
     //
     // MODULE: MultiQC
     //
-    workflow_summary    = WorkflowAssembleBac.paramsSummaryMultiqc(workflow, summary_params)
-    ch_workflow_summary = Channel.value(workflow_summary)
-    
-    MULTIQC (
-        ch_multiqc_config,
-        ch_multiqc_custom_config,
-        CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect(),
-        ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),
-        QUAST.out.results.collect{it[1]}.ifEmpty([]) 
-        )
-    multiqc_report = MULTIQC.out.report.toList()
-    ch_versions    = ch_versions.mix(MULTIQC.out.versions)
+    if (!params.skip_multiqc) {
+        workflow_summary    = WorkflowAssembleBac.paramsSummaryMultiqc(workflow, summary_params)
+        ch_workflow_summary = Channel.value(workflow_summary)
+        
+        MULTIQC (
+            ch_multiqc_config,
+            ch_multiqc_custom_config,
+            CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect(),
+            ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),
+            QUAST.out.results.collect{it[1]}.ifEmpty([]) 
+            )
+        multiqc_report = MULTIQC.out.report.toList()
+        ch_versions    = ch_versions.mix(MULTIQC.out.versions)
+    }
 }
 
 /*
