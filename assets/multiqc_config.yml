@@ -9,25 +9,17 @@ max_table_rows: 10000
 
 run_modules:
   - custom_content
-  - prokka
   - quast
 
 module_order:
-  - prokka:
-      name: "PROCESS: prokka"
-      info: "This section of the report shows prokka metrics."
-      path_filters:
-        - "./prokka/*.zip"
   - quast:
       name: "PROCESS: quast"
       info: "This section of the report shows assembly metrics generated using quast."
 
 report_section_order:
-  summary_assembly_metrics:
-    before: summary_variants_metrics
   software_versions:
     order: -1001
-  "nf-core-bacqc-summary":
+  "nf-core-assemblebac-summary":
     order: -1002
 
 export_plots: true
