@@ -49,6 +49,7 @@ include { INPUT_CHECK                 } from '../subworkflows/local/input_check'
 // MODULE: Installed directly from nf-core/modules
 
 include { SHOVILL } from '../modules/nf-core/modules/shovill/main'
+include { MLST    } from '../modules/nf-core/modules/mlst/main'
 include { PROKKA  } from '../modules/nf-core/modules/prokka/main'
 include { QUAST   } from '../modules/nf-core/modules/quast/main'
 
@@ -84,9 +85,18 @@ workflow ASSEMBLEBAC {
             params.genome_size
         )
         ch_assemblies_prokka = SHOVILL.out.contigs
+        ch_assemblies_mlst   = SHOVILL.out.contigs
         ch_assemblies_quast  = SHOVILL.out.contigs
         ch_versions          = ch_versions.mix(SHOVILL.out.versions.first().ifEmpty(null))
 
+    //
+    // MODULE: Run mlst
+    //
+    MLST (
+            ch_assemblies_mlst        
+        )
+        ch_versions = ch_versions.mix(MLST.out.versions.first().ifEmpty(null))
+    
     //
     // MODULE: Run prokka
     //
@@ -124,18 +134,20 @@ workflow ASSEMBLEBAC {
     //
     // MODULE: MultiQC
     //
-    workflow_summary    = WorkflowAssembleBac.paramsSummaryMultiqc(workflow, summary_params)
-    ch_workflow_summary = Channel.value(workflow_summary)
-    
-    MULTIQC (
-        ch_multiqc_config,
-        ch_multiqc_custom_config,
-        CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect(),
-        ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),
-        QUAST.out.results.collect{it[1]}.ifEmpty([]) 
-        )
-    multiqc_report = MULTIQC.out.report.toList()
-    ch_versions    = ch_versions.mix(MULTIQC.out.versions)
+    if (!params.skip_multiqc) {
+        workflow_summary    = WorkflowAssembleBac.paramsSummaryMultiqc(workflow, summary_params)
+        ch_workflow_summary = Channel.value(workflow_summary)
+        
+        MULTIQC (
+            ch_multiqc_config,
+            ch_multiqc_custom_config,
+            CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect(),
+            ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),
+            QUAST.out.results.collect{it[1]}.ifEmpty([]) 
+            )
+        multiqc_report = MULTIQC.out.report.toList()
+        ch_versions    = ch_versions.mix(MULTIQC.out.versions)
+    }
 }
 
 /*
