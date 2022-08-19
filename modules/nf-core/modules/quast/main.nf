@@ -14,9 +14,9 @@ process QUAST {
     val use_gff
 
     output:
-    path "${prefix}"    , emit: results
-    path '*.tsv'        , emit: tsv
-    path "versions.yml" , emit: versions
+    path "${prefix}"            , emit: results
+    path 'transposed_report.tsv', emit: tsv
+    path "versions.yml"         , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -34,7 +34,7 @@ process QUAST {
         --threads $task.cpus \\
         $args \\
         ${consensus.join(' ')}
-    ln -s ${prefix}/report.tsv
+    ln -s ${prefix}/transposed_report.tsv
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         quast: \$(quast.py --version 2>&1 | sed 's/^.*QUAST v//; s/ .*\$//')
