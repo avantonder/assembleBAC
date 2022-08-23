@@ -1,6 +1,6 @@
 process SHOVILL {
     tag "$meta.id"
-    label 'process_medium'
+    label 'process_high'
     label 'error_retry'
 
     conda (params.enable_conda ? "bioconda::shovill=1.1.0" : null)
