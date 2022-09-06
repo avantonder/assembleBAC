@@ -16,6 +16,7 @@ for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true
 
 // Check mandatory parameters
 if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
+if (params.baktadb) { ch_baktadb = file(params.baktadb) } else { exit 1, 'bakta database not specified!' }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,7 +51,7 @@ include { INPUT_CHECK                 } from '../subworkflows/local/input_check'
 
 include { SHOVILL } from '../modules/nf-core/modules/shovill/main'
 include { MLST    } from '../modules/nf-core/modules/mlst/main'
-include { PROKKA  } from '../modules/nf-core/modules/prokka/main'
+include { BAKTA   } from '../modules/nf-core/modules/bakta/main'
 include { QUAST   } from '../modules/nf-core/modules/quast/main'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
@@ -84,10 +85,10 @@ workflow ASSEMBLEBAC {
             INPUT_CHECK.out.reads,
             params.genome_size
         )
-        ch_assemblies_prokka = SHOVILL.out.contigs
-        ch_assemblies_mlst   = SHOVILL.out.contigs
-        ch_assemblies_quast  = SHOVILL.out.contigs
-        ch_versions          = ch_versions.mix(SHOVILL.out.versions.first().ifEmpty(null))
+        ch_assemblies_bakta = SHOVILL.out.contigs
+        ch_assemblies_mlst  = SHOVILL.out.contigs
+        ch_assemblies_quast = SHOVILL.out.contigs
+        ch_versions         = ch_versions.mix(SHOVILL.out.versions.first().ifEmpty(null))
 
     //
     // MODULE: Run mlst
@@ -98,14 +99,15 @@ workflow ASSEMBLEBAC {
         ch_versions = ch_versions.mix(MLST.out.versions.first().ifEmpty(null))
     
     //
-    // MODULE: Run prokka
+    // MODULE: Run bakta
     //
-    PROKKA (
-            ch_assemblies_prokka,
+    BAKTA (
+            ch_assemblies_bakta,
+            ch_baktadb,
             [],
             []           
         )
-        ch_versions = ch_versions.mix(PROKKA.out.versions.first().ifEmpty(null))
+        ch_versions = ch_versions.mix(BAKTA.out.versions.first().ifEmpty(null))
 
     //
     // MODULE: Run quast
