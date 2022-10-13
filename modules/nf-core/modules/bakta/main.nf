@@ -1,6 +1,7 @@
 process BAKTA {
     tag "$meta.id"
     label 'process_medium'
+    label 'error_retry'
 
     conda (params.enable_conda ? "bioconda::bakta=1.5.0" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
