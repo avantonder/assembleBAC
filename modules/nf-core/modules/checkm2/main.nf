@@ -26,7 +26,7 @@ process CHECKM2 {
         --threads $task.cpus \\
         -x '_contigs.fa' \\
         --input $fasta \\
-        --checkm2db $db \\
+        --database_path $db \\
         --output-directory ./
     mv quality_report.tsv ${prefix}_quality_report.tsv
     cat <<-END_VERSIONS > versions.yml
