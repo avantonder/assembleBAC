@@ -34,7 +34,7 @@ def checkm2_to_dataframe(file_list):
     checkm2_file_list = [pd.read_csv(f, sep='\t', header=None) for f in file_list]
     checkm2_df = pd.concat(checkm2_file_list, ignore_index=True)
 
-    return seqtk_df
+    return checkm2_df
 
 def main(args=None):
     args = parser_args(args)
@@ -43,7 +43,7 @@ def main(args=None):
     out_dir = os.path.dirname(args.output_file)
     make_dir(out_dir)
 
-    ## Create list of seqtk comp tsv outputs
+    ## Create list of checkm2 tsv outputs
     checkm2_files = sorted(glob.glob('*.tsv'))
 
     ## Create dataframe
