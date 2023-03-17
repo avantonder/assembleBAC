@@ -24,14 +24,14 @@ process CHECKM2 {
     """
     checkm2 predict \\
         --threads $task.cpus \\
-        -x '_contigs.fa'
+        -x '_contigs.fa' \\
         --input $fasta \\
         --checkm2db $db \\
         --output-directory ./
     mv quality_report.tsv ${prefix}_quality_report.tsv
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        checkm2: \$( echo \$(checkm2 --version 2>&1) | sed 's/checkm2 //' )
+        checkm2: \$( echo \$(checkm2 --version 2>&1) )
     END_VERSIONS
     """
 

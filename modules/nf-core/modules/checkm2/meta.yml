@@ -1,15 +1,15 @@
-name: mlst
-description: Run Torsten Seemann's classic MLST on a genome assembly
+name: CheckM2
+description: Rapid assessment of genome bin quality using machine learning.
 keywords:
-  - mlst
+  - CheckM2
 tools:
-  - mlst:
-      description: Scan contig files against PubMLST typing schemes
-      homepage: None
-      documentation: None
-      tool_dev_url: None
+  - checkm2:
+      description: Rapid assessment of genome bin quality using machine learning.
+      homepage: https://github.com/chklovski/CheckM2
+      documentation: https://github.com/chklovski/CheckM2
+      tool_dev_url: https://github.com/chklovski/CheckM2
       doi: ""
-      licence: ["GPL v2"]
+      licence: ["GPL v3"]
 
 input:
   - meta:
@@ -21,6 +21,10 @@ input:
       type: file
       description: Assembly fasta file
       pattern: "*.{fasta,fa,fna}"
+  - db:
+      type: file
+      description: |
+        Path to the CheckM2 database
 
 output:
   - meta:
@@ -34,9 +38,8 @@ output:
       pattern: "versions.yml"
   - tsv:
       type: file
-      description: MLST calls in tsv format
+      description: CheckM2 output in tsv format
       pattern: "*.{tsv}"
 
 authors:
-  - "@lskatz"
-  - "@tseemann"
+  - "@avantonder"
