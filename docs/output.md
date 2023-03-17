@@ -2,58 +2,116 @@
 
 ## Introduction
 
-This document describes the output produced by the pipeline. Most of the plots are taken from the MultiQC report, which summarises results at the end of the pipeline.
-
-The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
-
-<!-- TODO nf-core: Write this documentation describing your workflow's output -->
+This document describes the output produced by the `assembleBAC` pipeline. The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
 
 ## Pipeline overview
 
-The pipeline is built using [Nextflow](https://www.nextflow.io/)
-and processes data using the following steps:
+The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
-* [FastQC](#fastqc) - Read quality control
-* [MultiQC](#multiqc) - Aggregate report describing results from the whole pipeline
-* [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
+* [*de novo* genome assembly](#de-novo-genome-assembly)
+* [Sequence Type assignment](#sequence-type-assignment)
+* [Genome annotation](#genome-annotation)
+* [Genome completeness](#genome-completeness)
+* [Assembly metrics](#assembly-metrics) 
+* [MultiQC](#multiqc)
+* [Pipeline information](#pipeline-information)
 
-## FastQC
+### *de novo* genome assembly
 
-[FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) gives general quality metrics about your sequenced reads. It provides information about the quality score distribution across your reads, per base sequence content (%A/T/G/C), adapter contamination and overrepresented sequences.
+[Shovill](https://github.com/tseemann/shovill) assembles bacterial isolate genomes from Illumina paired-end reads.
 
-For further reading and documentation see the [FastQC help pages](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/).
+For further reading and documentation see the [Shovill Github page](https://github.com/tseemann/shovill).
 
-**Output files:**
+<details markdown="1">
+<summary>Output files</summary>
 
-* `fastqc/`
-  * `*_fastqc.html`: FastQC report containing quality metrics for your untrimmed raw fastq files.
-* `fastqc/zips/`
-  * `*_fastqc.zip`: Zip archive containing the FastQC report, tab-delimited data file and plot images.
+- `assemblies/`
+  - `*_contigs.fa`: *de novo* genome assembly in FASTA format
 
-> **NB:** The FastQC plots displayed in the MultiQC report shows _untrimmed_ reads. They may contain adapter sequence and potentially regions with low quality.
+</details>
 
-## MultiQC
+### Sequence Type assignment
 
-[MultiQC](http://multiqc.info) is a visualization tool that generates a single HTML report summarizing all samples in your project. Most of the pipeline QC results are visualised in the report and further statistics are available in the report data directory.
+[mlst](https://github.com/tseemann/mlst) is used to assign Sequence Types (STs) to bacterial isolate genomes.
 
-The pipeline has special steps which also allow the software versions to be reported in the MultiQC output for future traceability.
+For further reading and documentation see the [mlst Github page](https://github.com/tseemann/mlst).
 
-For more information about how to use MultiQC reports, see [https://multiqc.info](https://multiqc.info).
+<details markdown="1">
+<summary>Output files</summary>
 
-**Output files:**
+- `mlst/`
+  - `*.tsv`: MLST calls in tsv format
 
-* `multiqc/`
-  * `multiqc_report.html`: a standalone HTML file that can be viewed in your web browser.
-  * `multiqc_data/`: directory containing parsed statistics from the different tools used in the pipeline.
-  * `multiqc_plots/`: directory containing static images from the report in various formats.
+</details>
 
-## Pipeline information
+### Genome annotation
+
+[Bakta](https://github.com/oschwengers/bakta) is used for the annotation of bacterial genomes (isolates, MAGs) and plasmids.
+
+For further reading and documentation see the [Bakta help page](https://bakta.readthedocs.io/en/latest/).
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `annotation/`
+  - `*.gff3`: Annotations & sequences in GFF3 format
+
+</details>
+
+### Genome completeness
+
+[CheckM2](https://github.com/chklovski/CheckM2) is used for the rapid assessment of genome bin quality using machine learning
+
+For further reading and documentation see the [CheckM2 Github page](https://github.com/chklovski/CheckM2).
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `checkm2/`
+  - `*.tsv`: CheckM2 output in tsv format
+- `metadata/`
+  - `checkm2_summary.tsv`: CheckM2 summary in tsv format
+
+</details>
+
+### Assembly metrics
+
+[Quast](https://quast.sourceforge.net/) is a quality assessment tool for genome assemblies.
+
+For further reading and documentation see the [Quast manual](https://quast.sourceforge.net/docs/manual.html).
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `metadata/`
+  - `transposed_report.tsv`: Quast summary in tsv format
+
+</details>
+
+### MultiQC
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `multiqc/`
+  - `multiqc_report.html`: a standalone HTML file that can be viewed in your web browser.
+  - `multiqc_data/`: directory containing parsed statistics from the different tools used in the pipeline.
+  - `multiqc_plots/`: directory containing static images from the report in various formats.
+
+</details>
+
+[MultiQC](http://multiqc.info) is a visualization tool that generates a single HTML report summarising all samples in your project. Most of the pipeline QC results are visualised in the report and further statistics are available in the report data directory.
+
+### Pipeline information
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `pipeline_info/`
+  - Reports generated by Nextflow: `execution_report.html`, `execution_timeline.html`, `execution_trace.txt` and `pipeline_dag.dot`/`pipeline_dag.svg`.
+  - Reports generated by the pipeline: `pipeline_report.html`, `pipeline_report.txt` and `software_versions.yml`. The `pipeline_report*` files will only be present if the `--email` / `--email_on_fail` parameter's are used when running the pipeline.
+  - Reformatted samplesheet files used as input to the pipeline: `samplesheet.valid.csv`.
+
+</details>
 
 [Nextflow](https://www.nextflow.io/docs/latest/tracing.html) provides excellent functionality for generating various reports relevant to the running and execution of the pipeline. This will allow you to troubleshoot errors with the running of the pipeline, and also provide you with other information such as launch commands, run times and resource usage.
-
-**Output files:**
-
-* `pipeline_info/`
-  * Reports generated by Nextflow: `execution_report.html`, `execution_timeline.html`, `execution_trace.txt` and `pipeline_dag.dot`/`pipeline_dag.svg`.
-  * Reports generated by the pipeline: `pipeline_report.html`, `pipeline_report.txt` and `software_versions.csv`.
-  * Documentation for interpretation of results in HTML format: `results_description.html`.

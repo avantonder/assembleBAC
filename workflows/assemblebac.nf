@@ -17,6 +17,7 @@ for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true
 // Check mandatory parameters
 if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
 if (params.baktadb) { ch_baktadb = file(params.baktadb) } else { exit 1, 'bakta database not specified!' }
+if (params.checkm2db) { ch_checkm2db = file(params.checkm2db) } else { exit 1, 'checkm2 database not specified!' }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,9 +37,9 @@ ch_multiqc_custom_config = params.multiqc_config ? file(params.multiqc_config) :
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
+include { CHECKM2_PARSE } from '../modules/local/checkm2_parse'
 
-// Local: Sub-workflows
-include { INPUT_CHECK                 } from '../subworkflows/local/input_check'
+include { INPUT_CHECK   } from '../subworkflows/local/input_check'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,11 +50,11 @@ include { INPUT_CHECK                 } from '../subworkflows/local/input_check'
 //
 // MODULE: Installed directly from nf-core/modules
 
-include { SHOVILL } from '../modules/nf-core/modules/shovill/main'
-include { MLST    } from '../modules/nf-core/modules/mlst/main'
-include { BAKTA   } from '../modules/nf-core/modules/bakta/main'
-include { QUAST   } from '../modules/nf-core/modules/quast/main'
-
+include { SHOVILL                     } from '../modules/nf-core/modules/shovill/main'
+include { MLST                        } from '../modules/nf-core/modules/mlst/main'
+include { BAKTA                       } from '../modules/nf-core/modules/bakta/main'
+include { CHECKM2                     } from '../modules/nf-core/modules/checkm2/main'
+include { QUAST                       } from '../modules/nf-core/modules/quast/main'
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main' 
 
@@ -85,10 +86,11 @@ workflow ASSEMBLEBAC {
             INPUT_CHECK.out.reads,
             params.genome_size
         )
-        ch_assemblies_bakta = SHOVILL.out.contigs
-        ch_assemblies_mlst  = SHOVILL.out.contigs
-        ch_assemblies_quast = SHOVILL.out.contigs
-        ch_versions         = ch_versions.mix(SHOVILL.out.versions.first().ifEmpty(null))
+        ch_assemblies_bakta   = SHOVILL.out.contigs
+        ch_assemblies_mlst    = SHOVILL.out.contigs
+        ch_assemblies_checkm2 = SHOVILL.out.contigs
+        ch_assemblies_quast   = SHOVILL.out.contigs
+        ch_versions           = ch_versions.mix(SHOVILL.out.versions.first().ifEmpty(null))
 
     //
     // MODULE: Run mlst
@@ -109,6 +111,24 @@ workflow ASSEMBLEBAC {
         )
         ch_versions = ch_versions.mix(BAKTA.out.versions.first().ifEmpty(null))
 
+    //
+    // MODULE: Run checkm2
+    //
+    CHECKM2 (
+            ch_assemblies_checkm2,
+            ch_checkm2db          
+        )
+        ch_checkm2_checkm2parse = CHECKM2.out.tsv
+        ch_versions = ch_versions.mix(CHECKM2.out.versions.first().ifEmpty(null))
+
+    //
+    // MODULE: Summarise checkm2 outputs
+    //
+    CHECKM2_PARSE (
+              ch_checkm2_checkm2parse.collect{it[1]}.ifEmpty([])
+        )
+        ch_versions = ch_versions.mix(CHECKM2_PARSE.out.versions.first())
+    
     //
     // MODULE: Run quast
     //
