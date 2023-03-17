@@ -2,12 +2,10 @@
 
 **Pipeline for assembling and annotating bacterial genomes**.
 
-[![GitHub Actions CI Status](https://github.com/avantonder/assembleBAC/workflows/nf-core%20CI/badge.svg)](https://github.com/avantonder/assembleBAC/actions)
-[![GitHub Actions Linting Status](https://github.com/avantonder/assembleBAC/workflows/nf-core%20linting/badge.svg)](https://github.com/avantonder/assembleBAC/actions)
-[![Nextflow](https://img.shields.io/badge/nextflow-%E2%89%A522.04.3-brightgreen.svg)](https://www.nextflow.io/)
-
-[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg)](https://bioconda.github.io/)
-[![Docker](https://img.shields.io/docker/automated/nfcore/assemblebac.svg)](https://hub.docker.com/r/nfcore/assemblebac)
+[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A522.04.3-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
+[![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
+[![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
+[![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 
 ## Introduction
 
@@ -32,13 +30,7 @@ By default, the pipeline currently performs the following:
 
 2. Install any of [`Docker`](https://docs.docker.com/engine/installation/), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility _(please only use [`Conda`](https://conda.io/miniconda.html) as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_
 
-3. Download the pipeline and test it on a minimal dataset with a single command:
-
-    ```bash
-    nextflow run avantonder/assembleBAC -profile test,<docker/singularity/podman/shifter/charliecloud/conda/institute>
-    ```
-
-4. Download the `Bakta` light database (`Bakta` is required to run the `amrfinder_update` command):
+3. Download the `Bakta` light database (`Bakta` is required to run the `amrfinder_update` command):
 
     ```bash
     wget https://zenodo.org/record/7669534/files/db-light.tar.gz
@@ -47,13 +39,13 @@ By default, the pipeline currently performs the following:
     amrfinder_update --force_update --database db-light/amrfinderplus-db/
     ```
 
-5. Download the `CheckM2` database (`CheckM2` is required):
+4. Download the `CheckM2` database (`CheckM2` is required):
 
     ```bash
     checkm2 database --download --path .
     ```
 
-6. An executable Python script called [`fastq_dir_to_samplesheet.py`](https://github.com/avantonder/bovisanalyzer/blob/main/bin/fastq_dir_to_samplesheet.py) has been provided to auto-create an input samplesheet based on a directory containing FastQ files **before** you run the pipeline (requires Python 3 installed locally) e.g.
+5. An executable Python script called [`fastq_dir_to_samplesheet.py`](https://github.com/avantonder/bovisanalyzer/blob/main/bin/fastq_dir_to_samplesheet.py) has been provided to auto-create an input samplesheet based on a directory containing FastQ files **before** you run the pipeline (requires Python 3 installed locally) e.g.
 
      ```console
      wget -L https://raw.githubusercontent.com/avantonder/bovisanalyzer/main/bin/fastq_dir_to_samplesheet.py
@@ -65,17 +57,19 @@ By default, the pipeline currently performs the following:
 
 Alternatively the samplesheet.csv file created by [`nf-core/fetchngs`](https://nf-co.re/fetchngs) can also be used.
 
-7. Start running your own analysis!
+6. Start running your own analysis!
     - Typical command for assembly and annotation
 
     ```bash
     nextflow run avantonder/assembleBAC \
-        -profile <docker/singularity/podman/shifter/charliecloud/conda/institute> \
+        -profile singularity \
+        -c cambridge.config \
         --input samplesheet.csv \
-        --genome_size <ESTIMATED GENOME SIZE e.g. 4.3M> \
-        --outdir assembleBAC_results \
-        --baktadb <PATH TO BAKTA DB> \
-        --checkm2db <PATH TO CHECKM2 DB>
+        --genome_size <ESTIMATED GENOME SIZE e.g. 4M> \
+        --outdir <OUTDIR> \
+        --baktadb path/to/baktadb/dir \
+        --checkm2db path/to/checkm2db/diruniref100.KO.1.dmnd \
+        -resume
     ```
 
 See [usage docs](https://nf-co.re/assemblebac/usage) for all of the available options when running the pipeline.

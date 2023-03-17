@@ -16,7 +16,7 @@ module_order:
       name: "PROCESS: quast"
       info: "This section of the report shows assembly metrics generated using quast."
       path_filters:
-            - './quast/*'
+            - './metadata/*'
 
 report_section_order:
   software_versions:

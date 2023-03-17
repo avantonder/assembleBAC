@@ -23,7 +23,7 @@
 - [Quast](https://pubmed.ncbi.nlm.nih.gov/29949969/)
   > Mikheenko A, Prjibelski A, Saveliev V, Antipov D, Gurevich A. Versatile genome assembly evaluation with QUAST-LG. Bioinformatics. 2018 Jul 1;34(13):i142-i150. doi: 10.1093/bioinformatics/bty266. PMID: 29949969; PMCID: PMC6022658.
 
-- [Shovill](https://github.com/mbhall88/rasusa)
+- [Shovill](https://github.com/tseemann/shovill)
 
 ## Software packaging/containerisation tools
 
