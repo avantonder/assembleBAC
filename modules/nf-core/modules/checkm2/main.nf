@@ -27,8 +27,8 @@ process CHECKM2 {
         -x '_contigs.fa' \\
         --input $fasta \\
         --database_path $db \\
-        --output-directory ./
-    mv quality_report.tsv ${prefix}_quality_report.tsv
+        --output-directory $prefix
+    mv ${prefix}/quality_report.tsv ${prefix}_quality_report.tsv
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         checkm2: \$( echo \$(checkm2 --version 2>&1) )
