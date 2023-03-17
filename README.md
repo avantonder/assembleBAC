@@ -42,7 +42,7 @@ By default, the pipeline currently performs the following:
 4. Download the `CheckM2` database (`CheckM2` is required):
 
     ```bash
-    checkm2 database --download --path .
+    checkm2 database --download --path path/to/checkm2db
     ```
 
 5. An executable Python script called [`fastq_dir_to_samplesheet.py`](https://github.com/avantonder/bovisanalyzer/blob/main/bin/fastq_dir_to_samplesheet.py) has been provided to auto-create an input samplesheet based on a directory containing FastQ files **before** you run the pipeline (requires Python 3 installed locally) e.g.
@@ -63,7 +63,7 @@ Alternatively the samplesheet.csv file created by [`nf-core/fetchngs`](https://n
     ```bash
     nextflow run avantonder/assembleBAC \
         -profile singularity \
-        -c cambridge.config \
+        -c <INSTITUTION>.config \
         --input samplesheet.csv \
         --genome_size <ESTIMATED GENOME SIZE e.g. 4M> \
         --outdir <OUTDIR> \
@@ -72,11 +72,11 @@ Alternatively the samplesheet.csv file created by [`nf-core/fetchngs`](https://n
         -resume
     ```
 
-See [usage docs](https://nf-co.re/assemblebac/usage) for all of the available options when running the pipeline.
+See [usage docs](docs/usage.md) for all of the available options when running the pipeline.
 
 ## Documentation
 
-The avantonder/assembleBAC pipeline comes with documentation about the pipeline: [usage](https://nf-co.re/assemblebac/usage) and [output](https://nf-co.re/assemblebac/output).
+The avantonder/assembleBAC pipeline comes with documentation about the pipeline [usage](docs/usage.md), [parameters](docs/parameters.md) and [output](docs/output.md).
 
 ## Credits
 
@@ -84,10 +84,10 @@ avantonder/assembleBAC was originally written by Andries van Tonder.  I wouldn't
 
 ## Feedback
 
-If you have any issues, questions or suggestions for improving bovisanalyzer, please submit them to the [Issue Tracker](https://github.com/avantonder/assembleBAC/issues).
+If you have any issues, questions or suggestions for improving assembleBAC, please submit them to the [Issue Tracker](https://github.com/avantonder/assembleBAC/issues).
 
 ## Citations
 
-If you use the avantonder/bovisanalyzer pipeline, please cite it using the following doi: ZENODO_DOI
+If you use the avantonder/assembleBAC pipeline, please cite it using the following doi: ZENODO_DOI
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.

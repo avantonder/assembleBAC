@@ -74,7 +74,7 @@ The typical command for running the pipeline is as follows:
 ```bash
 nextflow run avantonder/assembleBAC \
   -profile singularity \
-  -c cambridge.config \
+  -c <INSTITUTION>.config \
   --input samplesheet.csv \
   --genome_size <ESTIMATED GENOME SIZE> \
   --outdir <OUTDIR> \
