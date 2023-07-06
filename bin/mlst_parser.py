@@ -8,12 +8,12 @@ import pandas as pd
 
 def parser_args(args=None):
     """ 
-    Function for input arguments for checkm2_parser.py
+    Function for input arguments for mlst_parser.py
     """
-    Description = 'Collect checkm2 outputs and create a summary table'
-    Epilog = """Example usage: python checkm2_parser.py """
+    Description = 'Collect mlst outputs and create a summary table'
+    Epilog = """Example usage: python mlst_parser.py """
     parser = argparse.ArgumentParser(description=Description, epilog=Epilog)
-    parser.add_argument("-of", "--output_file", type=str, default="checkm2_summary.tsv", help="checkm2 summary file (default: 'checkm2_summary.tsv').")
+    parser.add_argument("-of", "--output_file", type=str, default="mlst_summary.tsv", help="mlst summary file (default: 'mlst_summary.tsv').")
     return parser.parse_args(args)
 
 def make_dir(path):
@@ -27,11 +27,11 @@ def make_dir(path):
             if exception.errno != errno.EEXIST:
                 raise
 
-def checkm2_to_dataframe(file_list):
+def mlst_to_dataframe(file_list):
     """ 
-    Function for creating a dataframe from a list of checkm2 output files
+    Function for creating a dataframe from a list of mlst output files
     """
-    file_read = [pd.read_csv(f, sep='\t') for f in file_list]
+    file_read = [pd.read_csv(f, sep='\t', header=None) for f in file_list]
     df = pd.concat(file_read, ignore_index=True)
 
     return df
@@ -43,14 +43,14 @@ def main(args=None):
     out_dir = os.path.dirname(args.output_file)
     make_dir(out_dir)
 
-    ## Create list of checkm2 tsv outputs
-    checkm2_files = sorted(glob.glob('*.tsv'))
+    ## Create list of mlst tsv outputs
+    mlst_files = sorted(glob.glob('*.tsv'))
 
     ## Create dataframe
-    checkm2_df = checkm2_to_dataframe(checkm2_files)
+    mlst_df = mlst_to_dataframe(mlst_files)
 
     ## Write output file
-    checkm2_df.to_csv(args.output_file, sep = '\t', header = True, index = False)
+    mlst_df.to_csv(args.output_file, sep = '\t', header = None, index = False)
 
 if __name__ == '__main__':
     sys.exit(main())

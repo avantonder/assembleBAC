@@ -41,6 +41,8 @@ For further reading and documentation see the [mlst Github page](https://github.
 
 - `mlst/`
   - `*.tsv`: MLST calls in tsv format
+- `metadata/`
+  - `mlst_summary.tsv`: mlst summary in tsv format
 
 </details>
 
