@@ -175,7 +175,7 @@ workflow ASSEMBLEBAC {
             ch_multiqc_custom_config,
             CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect(),
             ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),
-            QUAST.out.results.collect{it[1]}.ifEmpty([]) 
+            QUAST.out.tsv.collect{it[1]}.ifEmpty([]) 
             )
         multiqc_report = MULTIQC.out.report.toList()
         ch_versions    = ch_versions.mix(MULTIQC.out.versions)
