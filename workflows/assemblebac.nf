@@ -38,6 +38,7 @@ ch_multiqc_custom_config = params.multiqc_config ? file(params.multiqc_config) :
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
 include { CHECKM2_PARSE } from '../modules/local/checkm2_parse'
+include { MLST_PARSE    } from '../modules/local/mlst_parse'
 
 include { INPUT_CHECK   } from '../subworkflows/local/input_check'
 
@@ -98,7 +99,16 @@ workflow ASSEMBLEBAC {
     MLST (
             ch_assemblies_mlst        
         )
+        ch_mlst_mlstparse = MLST.out.tsv
         ch_versions = ch_versions.mix(MLST.out.versions.first().ifEmpty(null))
+
+    //
+    // MODULE: Summarise mlst outputs
+    //
+    MLST_PARSE (
+              ch_mlst_mlstparse.collect{it[1]}.ifEmpty([])
+        )
+        ch_versions = ch_versions.mix(MLST_PARSE.out.versions.first())
     
     //
     // MODULE: Run bakta
@@ -144,7 +154,8 @@ workflow ASSEMBLEBAC {
             false,
             false
         )
-        ch_versions = ch_versions.mix(QUAST.out.versions.first().ifEmpty(null))
+        ch_quast_multiqc = QUAST.out.tsv 
+        ch_versions      = ch_versions.mix(QUAST.out.versions.first().ifEmpty(null))
     
     //
     // MODULE: Collate software versions
@@ -165,7 +176,7 @@ workflow ASSEMBLEBAC {
             ch_multiqc_custom_config,
             CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect(),
             ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),
-            QUAST.out.results.collect{it[1]}.ifEmpty([]) 
+            ch_quast_multiqc.ifEmpty([]), 
             )
         multiqc_report = MULTIQC.out.report.toList()
         ch_versions    = ch_versions.mix(MULTIQC.out.versions)

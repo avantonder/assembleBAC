@@ -15,7 +15,8 @@ process QUAST {
 
     output:
     path "${prefix}"            , emit: results
-    path 'transposed_report.tsv', emit: tsv
+    path 'report.tsv'           , emit: tsv  
+    path 'transposed_report.tsv', emit: transposed
     path "versions.yml"         , emit: versions
 
     when:
@@ -34,6 +35,7 @@ process QUAST {
         --threads $task.cpus \\
         $args \\
         ${consensus.join(' ')}
+    ln -s ${prefix}/report.tsv
     ln -s ${prefix}/transposed_report.tsv
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

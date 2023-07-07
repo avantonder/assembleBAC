@@ -11,14 +11,14 @@ process MULTIQC {
     path multiqc_custom_config
     path software_versions
     path workflow_summary
-    path ('quast/*')
+    path 'report.tsv'
 
     output:
-    path "*multiqc_report.html", emit: report
-    path "*_data"              , emit: data
+    path "*multiqc_report.html"     , emit: report
+    path "*_data"                   , emit: data
     path "*variants_metrics_mqc.csv", optional:true, emit: csv_variants
-    path "*_plots"             , optional:true, emit: plots
-    path "versions.yml"        , emit: versions
+    path "*_plots"                  , optional:true, emit: plots
+    path "versions.yml"             , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
