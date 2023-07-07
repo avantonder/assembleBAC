@@ -154,7 +154,8 @@ workflow ASSEMBLEBAC {
             false,
             false
         )
-        ch_versions = ch_versions.mix(QUAST.out.versions.first().ifEmpty(null))
+        ch_quast_multiqc = QUAST.out.tsv 
+        ch_versions      = ch_versions.mix(QUAST.out.versions.first().ifEmpty(null))
     
     //
     // MODULE: Collate software versions
@@ -175,7 +176,7 @@ workflow ASSEMBLEBAC {
             ch_multiqc_custom_config,
             CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect(),
             ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),
-            QUAST.out.tsv.collect{it[1]}.ifEmpty([]) 
+            ch_quast_multiqc.ifEmpty([]), 
             )
         multiqc_report = MULTIQC.out.report.toList()
         ch_versions    = ch_versions.mix(MULTIQC.out.versions)
