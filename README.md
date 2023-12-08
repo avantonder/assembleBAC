@@ -1,6 +1,6 @@
 # avantonder/assembleBAC
 
-**Pipeline for assembling and annotating bacterial genomes**.
+# ![avantonder/assembleBAC-ONT](docs/images/assembleBAC_metromap.png)
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A522.04.3-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
