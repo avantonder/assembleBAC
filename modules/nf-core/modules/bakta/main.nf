@@ -1,8 +1,8 @@
-process BAKTA_BAKTA {
+process BAKTA {
     tag "$meta.id"
     label 'process_medium'
     label 'error_retry'
-    
+
     conda "bioconda::bakta=1.9.3"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/bakta:1.9.3--pyhdfd78af_0' :
