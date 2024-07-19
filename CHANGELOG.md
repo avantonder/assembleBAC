@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - shebang in check_samplesheet.py changed to python3 to work on systems with no 'python' alias
 - Bakta updated to version 1.9.4 to fix AMRfinder bug with database
+- Bakta database installation instructions updated in README.md to avoid AMRfinder bug
 
 ## v1.2 - [07/07/23]
 
