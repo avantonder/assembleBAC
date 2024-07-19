@@ -30,12 +30,10 @@ By default, the pipeline currently performs the following:
 
 2. Install any of [`Docker`](https://docs.docker.com/engine/installation/), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility _(please only use [`Conda`](https://conda.io/miniconda.html) as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_
 
-3. Download the `Bakta` light database (`Bakta` is required to run the `amrfinder_update` command):
+3. Download the `Bakta` light database (`Bakta` version **1.9.4** is required to run the `amrfinder_update` command):
 
     ```bash
-    wget https://zenodo.org/record/7669534/files/db-light.tar.gz
-    tar -xzf db-light.tar.gz
-    rm db-light.tar.gz
+    bakta_db download --output . --type light
     amrfinder_update --force_update --database db-light/amrfinderplus-db/
     ```
 
