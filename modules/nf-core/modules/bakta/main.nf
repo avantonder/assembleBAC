@@ -3,10 +3,10 @@ process BAKTA {
     label 'process_medium'
     label 'error_retry'
 
-    conda "bioconda::bakta=1.9.3"
+    conda "bioconda::bakta=1.9.4"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/bakta:1.9.3--pyhdfd78af_0' :
-        'biocontainers/bakta:1.9.3--pyhdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/bakta:1.9.4--pyhdfd78af_0' :
+        'biocontainers/bakta:1.9.4--pyhdfd78af_0' }"
 
     input:
     tuple val(meta), path(fasta)
