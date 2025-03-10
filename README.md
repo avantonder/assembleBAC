@@ -26,11 +26,11 @@ By default, the pipeline currently performs the following:
 
 ## Quick Start
 
-1. Install [`nextflow`](https://nf-co.re/usage/installation)(`>=22.04.3`)
+1. Install [`nextflow`](https://nf-co.re/usage/installation)(`>=24.04.3`)
 
 2. Install any of [`Docker`](https://docs.docker.com/engine/installation/), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility _(please only use [`Conda`](https://conda.io/miniconda.html) as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_
 
-3. Download the `Bakta` light database (`Bakta` version **1.9.4** is required to run the `amrfinder_update` command):
+3. Download the `Bakta` light database (`Bakta` version **1.10.4** is required to run the `amrfinder_update` command):
 
     ```bash
     bakta_db download --output . --type light

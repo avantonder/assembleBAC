@@ -2,10 +2,10 @@ process MLST {
     tag "$meta.id"
     label 'process_low'
 
-    conda (params.enable_conda ? "bioconda::mlst=2.19.0" : null)
+    conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/mlst:2.19.0--hdfd78af_1' :
-        'quay.io/biocontainers/mlst:2.19.0--hdfd78af_1' }"
+        'https://depot.galaxyproject.org/singularity/mlst:2.23.0--hdfd78af_0' :
+        'biocontainers/mlst:2.23.0--hdfd78af_0' }"
 
     input:
     tuple val(meta), path(fasta)
@@ -22,9 +22,11 @@ process MLST {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     mlst \\
+        $args \\
         --threads $task.cpus \\
         $fasta \\
         > ${prefix}.tsv
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         mlst: \$( echo \$(mlst --version 2>&1) | sed 's/mlst //' )
