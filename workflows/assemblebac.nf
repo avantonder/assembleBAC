@@ -43,11 +43,11 @@ include { MLST_PARSE    } from '../modules/local/mlst_parse'
 //
 // MODULE: Installed directly from nf-core/modules
 
-include { SHOVILL } from '../modules/nf-core/modules/shovill/main'
-include { MLST    } from '../modules/nf-core/modules/mlst/main'
-include { BAKTA   } from '../modules/nf-core/modules/bakta/main'
-include { QUAST   } from '../modules/nf-core/modules/quast/main'
-include { MULTIQC } from '../modules/nf-core/modules/multiqc/main'
+include { SHOVILL } from '../modules/nf-core/shovill/main'
+include { MLST    } from '../modules/nf-core/mlst/main'
+include { BAKTA   } from '../modules/nf-core/bakta/main'
+include { QUAST   } from '../modules/nf-core/quast/main'
+include { MULTIQC } from '../modules/nf-core/multiqc/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
