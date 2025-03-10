@@ -16,8 +16,8 @@ nextflow.enable.dsl = 2
 */
 
 include { ASSEMBLEBAC             } from './workflows/assemblebac'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_assemblebacont_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_assemblebacont_pipeline'
+include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_assemblebac_pipeline'
+include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_assemblebac_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
