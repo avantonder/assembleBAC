@@ -217,7 +217,7 @@ def toolBibliographyText() {
         text_denovo_assembly,
         params.skip_mlst           ? "" : text_mlst,
         params.skip_assemblyqc     ? "" : text_assembly_qc,
-        params.skip_annotation     ? "" : annotation_text,,
+        params.skip_annotation     ? "" : annotation_text,
         "<li>Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics , 32(19), 3047–3048. <a href=\"https:/doi.org/10.1093/bioinformatics/btw354\">10.1093/bioinformatics/btw354.</a></li>"
     ].join(' ').trim().replaceAll("[,|.] +\\.", ".")
 
