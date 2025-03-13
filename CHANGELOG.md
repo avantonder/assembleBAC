@@ -3,6 +3,18 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.0.0 - [10/03/25]
+
+### `Added`
+
+- Significant recoding of pipeline to bring it more in line with current nf-core template
+
+### `Fixed`
+
+- Update Bakta from version 1.9.4 to version 1.10.4
+- Update mlst from version 2.19.0 to version 2.23.0
+- Update MultiQC from version 1.14 to version 1.25.1
+
 ## v1.2.1 - [19/07/24]
 
 ### `Fixed` 
