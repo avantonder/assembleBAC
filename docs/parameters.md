@@ -1,6 +1,6 @@
 # avantonder/assembleBAC pipeline parameters                                                                                       
                                                                                                                                    
-Pipeline for assembling bacterial genomes                                                                                          
+is a bioinformatics best-practise analysis pipeline for assembling and annotating bacterial genomes. It also predicts the Sequence Type (ST) and provides QC metrics with `Quast` and`CheckM2`.                                                                                          
                                                                                                                                    
 ## Input/output options                                                                                                            
                                                                                                                                    
