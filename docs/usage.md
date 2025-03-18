@@ -8,19 +8,20 @@
 
 You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. It has to be a comma-separated file with 3 columns, and a header row as shown in the example below. 
 
-An executable Python script called [`fastq_dir_to_samplesheet.py`](https://github.com/avantonder/bovisanalyzer/blob/main/bin/fastq_dir_to_samplesheet.py) has been provided to auto-create an input samplesheet based on a directory containing FastQ files **before** you run the pipeline (requires Python 3 installed locally) e.g.
+An executable Python script called [`fastq_dir_to_samplesheet.py`](https://github.com/avantonder/assembleBAC/blob/main/assets/fastq_dir_to_samplesheet.py) has been provided to auto-create an input samplesheet based on a directory containing FastQ files **before** you run the pipeline (requires Python 3 installed locally) e.g.
 
-     ```console
-     wget -L https://raw.githubusercontent.com/avantonder/bovisanalyzer/main/bin/fastq_dir_to_samplesheet.py
+```bash
+wget -L https://github.com/avantonder/assembleBAC/blob/main/assets/fastq_dir_to_samplesheet.py
 
-     python fastq_dir_to_samplesheet.py <FASTQ_DIR> \
-        samplesheet.csv \
-        -r1 <FWD_FASTQ_SUFFIX> \
-        -r2 <REV_FASTQ_SUFFIX>
+python fastq_dir_to_samplesheet.py <FASTQ_DIR> \
+  samplesheet.csv \
+  -r1 <FWD_FASTQ_SUFFIX> \
+  -r2 <REV_FASTQ_SUFFIX>
+```
 
 Use the `--input` parameter to specify the location of `samplesheet.csv`. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
 
-```console
+```bash
 --input '[path to samplesheet file]'
 ```
 ### Full samplesheet
@@ -29,7 +30,7 @@ The pipeline will auto-detect whether a sample is single- or paired-end using th
 
 A final samplesheet file consisting of both single- and paired-end data may look something like the one below. This is for 2 samples, one paired-end and one single-end.
 
-```console
+```bash
 sample,fastq_1,fastq_2
 SAMPLE_PAIRED_END,/path/to/fastq/files/AEG588A1_S1_L002_R1_001.fastq.gz,/path/to/fastq/files/AEG588A1_S1_L002_R2_001.fastq.gz
 SAMPLE_SINGLE_END,/path/to/fastq/files/AEG588A4_S4_L003_R1_001.fastq.gz,
@@ -42,30 +43,6 @@ SAMPLE_SINGLE_END,/path/to/fastq/files/AEG588A4_S4_L003_R1_001.fastq.gz,
 | `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
 
 An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
-
-## Bakta database
-
-The pipeline can be provided with a path to a Bakta database which is used to annotate the bacterial genome assemblies  Use the `--baktadb` parameter to specify the location of the Bakta database:
-
-```console
---baktadb '[path to Bakta database]'
-```
-
-## CheckM2 database
-
-The pipeline can be provided with a path to a CheckM2 database which is used to check the completeness of the bacterial genome assemblies  Use the `--checkm2db` parameter to specify the location of the CheckM2 database:
-
-```console
---checkm2db '[path to CheckM2 database]'
-```
-
-## Genome size
-
-The pipeline can be provided with a genome size which will be used by Shovill to calculate an approximate read coverage.  Use the `--genome size` parameter to specify the estimated genome size of the species being analysed (should be in this format: 4.3M):
-
-```console
---genome_size <GENOME_SIZE>
-```
 
 ## Running the pipeline
 
