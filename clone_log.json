@@ -4,5 +4,27 @@
     "total_clones": 0,
     "unique_cloners": 0,
     "daily_data": []
+  },
+  {
+    "timestamp": "2025-05-18T02:02:57.156566",
+    "total_clones": 14,
+    "unique_cloners": 13,
+    "daily_data": [
+      {
+        "timestamp": "2025-05-15T00:00:00Z",
+        "count": 11,
+        "uniques": 11
+      },
+      {
+        "timestamp": "2025-05-16T00:00:00Z",
+        "count": 2,
+        "uniques": 1
+      },
+      {
+        "timestamp": "2025-05-17T00:00:00Z",
+        "count": 1,
+        "uniques": 1
+      }
+    ]
   }
 ]
