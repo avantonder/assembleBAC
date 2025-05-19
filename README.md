@@ -13,7 +13,7 @@
 
 **avantonder/assembleBAC** is a bioinformatics best-practise analysis pipeline for assembling and annotating bacterial genomes. It also predicts the Sequence Type (ST) and provides QC metrics with `Quast` and `CheckM2`.
 
-1. *de novo* genome assembly ([`Shovill`](https://github.com/tseemann/shovill))
+1. *de novo* genome assembly ([`Shovill`](https://github.com/tseemann/shovill)).
 2. Sequence Type assignment ([`mlst`](https://github.com/tseemann/mlst))
 3. Annotation ([`Bakta`](https://github.com/oschwengers/bakta))
 4. Assembly metrics ([`Quast`](https://quast.sourceforge.net/))
